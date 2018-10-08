@@ -1,0 +1,2 @@
+export const FETCH_DATA_SEARCH = "FETCH_DATA_SEARCH";
+export const FETCH_PROGRESS = "FETCH_PROGRESS";
