@@ -6,7 +6,15 @@ import {fetchData} from '../actions/SearchAction';
 
 import {View, Text} from 'react-native'
 
+import HeaderTpl from '../components/Header';
+import { Button } from 'native-base';
+
+
 class Home extends Component{
+
+	static navigationOptions = {
+		header: null,
+		};
 	
 	componentDidMount(){
         this.props.fetchData('M');
@@ -15,10 +23,19 @@ class Home extends Component{
 	}
 	
 	render(){
+
 	
 		return(
+
 		
-		 	<View><Text>Home pgae</Text></View>
+		<View>
+
+			<HeaderTpl title="Farwaniyah Equiestrian Club" />	
+			<View><Button onPress={() => this.props.navigation.navigate('HomeTwo')}><Text>Back</Text></Button></View>
+
+		</View>
+		
+		 	
 		 
 		)
 	
