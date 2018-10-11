@@ -18,7 +18,7 @@ class Login extends Component {
     return (
 
         <View style={{flex: 1}}>
-        <LinearGradient  colors={['#4c669f', '#3b5998', '#192f6a']} style={{flex: 1, alignContent: "center", justifyContent: "center", alignItems: "center"}}>
+        <LinearGradient  colors={['#210D5D', '#0f9273', '#210D5D']} style={{flex: 1, alignContent: "center", justifyContent: "center", alignItems: "center"}}>
               <Text style={{color: "#fff", fontSize: 19}}>
                SIGN IN
               </Text>
