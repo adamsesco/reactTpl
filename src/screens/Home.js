@@ -33,6 +33,7 @@ class Home extends Component{
 			<HeaderTpl title="Farwaniyah Equiestrian Club" />	
 			<View><Button onPress={() => this.props.navigation.navigate('HomeTwo')}><Text>Back</Text></Button></View>
 
+
 		</View>
 		
 		 	

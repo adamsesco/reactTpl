@@ -2,15 +2,19 @@ import React from 'react';
 
 import { DrawerNavigator, DrawerItems, createDrawerNavigator, createStackNavigator } from 'react-navigation'
 
-import {Content, Body, Container, Header} from 'native-base';
 
 import Home from './screens/Home';
+import Login from './screens/Login';
 import HomeTwo from './screens/HomeTwo';
 
 
 const Root = createStackNavigator(
 
 		{
+
+			Login: {
+				screen : Login
+			},
 			Home: {
 				screen : Home
 			},

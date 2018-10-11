@@ -11,7 +11,7 @@ class HomeTwo extends Component {
   render() {
     return (
       <View>
-        <Text> HomeTwo </Text>
+        <Text style={{fontWeight: 'bold'}}> HomeTwo </Text>
       </View>
     );
   }
