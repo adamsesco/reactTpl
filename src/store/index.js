@@ -1,14 +1,15 @@
 import { AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { persistReducer, persistStore } from 'redux-persist';
+import { persistReducer, persistStore, Persistor } from 'redux-persist';
 
 
 import reducers from '../reducers';
 
 const persistsConfig = {
     key: 'root',
-    storage: AsyncStorage
+    storage: AsyncStorage,
+    whiltelist: ['loginAction']
 };
 
 const persistedReducer = persistReducer(persistsConfig, reducers);

@@ -6,6 +6,8 @@ import { DrawerNavigator, DrawerItems, createDrawerNavigator, createStackNavigat
 import Home from './screens/Home';
 import Login from './screens/Login';
 import HomeTwo from './screens/HomeTwo';
+import Signup from './screens/Signup';
+import AddJockey from './screens/AddJockey';
 
 
 const Root = createStackNavigator(
@@ -18,8 +20,14 @@ const Root = createStackNavigator(
 			Home: {
 				screen : Home
 			},
+			Signup: {
+				screen : Signup
+			},
 			HomeTwo: {
 				screen : HomeTwo
+			},
+			AddJockey: {
+				screen: AddJockey
 			}
 
 		}

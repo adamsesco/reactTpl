@@ -1,2 +1,6 @@
 export const FETCH_DATA_SEARCH = "FETCH_DATA_SEARCH";
 export const FETCH_PROGRESS = "FETCH_PROGRESS";
+export const LOGIN_PROGRESS = "LOGIN_PROGRESS";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILER = "LOGIN_FAILER";
+export const LOGOUT = "LOGOUT";
