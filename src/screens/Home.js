@@ -17,9 +17,7 @@ class Home extends Component{
 		};
 	
 	componentDidMount(){
-        this.props.fetchData('M');
 		
-		console.log(this.props.search)
 	}
 	
 	render(){

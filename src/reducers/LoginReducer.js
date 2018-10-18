@@ -5,7 +5,7 @@ import {
     LOGOUT
 } from '../actions/types';
 
-const INITIAL_STATE = { loading: false, data: null, message: 0 };
+const INITIAL_STATE = { loading: false, data: '', message: 0 };
 
 export default (state = INITIAL_STATE, action) => {
 

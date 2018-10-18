@@ -40,7 +40,7 @@ leftButton = () => {
 
             <View>{this.leftButton()}</View>
             <View><Text style={{color: 'white', fontWeight: 'bold'}}>{this.props.title}</Text></View>
-            <View><TouchableHighlight style={{marginTop: 15}}><Icon type="ionicon" name="ios-contact" size={29} color="#fff" /></TouchableHighlight></View>
+            <View><TouchableHighlight style={{marginTop: 15}} onPress={() => this.props.navigation.navigate("Profile")}><Icon type="ionicon" name="ios-contact" size={29} color="#fff" /></TouchableHighlight></View>
 
         </Header>
 

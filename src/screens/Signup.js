@@ -26,13 +26,12 @@ class Signup extends Component {
     };
   }
 
-  isLoading = () => {
+isLoading = () => {
     if(this.state.loading){
       return <ActivityIndicator size="large" color="#fff" />;
 
     }
   }
-
 
   SignUp = async() =>{
 

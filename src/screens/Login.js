@@ -30,7 +30,8 @@ class Login extends Component {
 
   checkIflogin = async() =>{
 
-    if(this.props.data){
+
+    if(this.props.data.data){
 
       if(this.props.data.data.token){
 
@@ -75,7 +76,10 @@ class Login extends Component {
       }
       if(this.props.data.data.token != null){
 
-        this.props.navigation.navigate("HomeTwo");
+        const { navigate } = this.props.navigation;
+
+
+        navigate('HomeTwo');
 
       }
 
