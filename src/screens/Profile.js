@@ -4,21 +4,70 @@ import HeaderTpl from '../components/Header';
 import {Container, Content, ListItem, List} from 'native-base';
 import {Logout} from '../actions/LoginAction';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
+
 
 class Profile extends Component {
 
+    constructor(props) {
+        super(props);
+        // this.fire();
+
+        this.state = {
+          dataFrom: {
+            email: 'my email'
+          }
+        };
+      }
+
+
+    fire = () => {
+
+        var config = {
+            apiKey: "AIzaSyDLLccBRrVg7gmO95AXH7mF3OJl9ttx9ao",
+            authDomain: "my-new-test-ba7fd.firebaseapp.com",
+            databaseURL: "https://my-new-test-ba7fd.firebaseio.com",
+            projectId: "my-new-test-ba7fd",
+            storageBucket: "my-new-test-ba7fd.appspot.com",
+            messagingSenderId: "835529359676"
+          };
+
+         firebase.initializeApp(config); 
+
+    }
+
+    componentWillMount(){
+
+    //   self = this;
+
+    //   firebase.database().ref('UsersList').limitToLast(1).on('value', (data) => {
+
+       
+    //     data.forEach(function(child){
+
+    //       self.setState({dataFrom: child.val()})
+          
+
+    //     })
+
+    // })
+
+    }
+
+    makeNew = () => {
+      firebase.database().ref('UsersList').push({
+        email: 'farwaniyahclub@gmail.com',
+        username: 'ds',
+        phone: 2881721
+      })
+
+    }
 
 
  	static navigationOptions = {
 		header: null,
 		};
 
-    
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
 
   logoutAuth = () =>{
     this.props.navigation.navigate("Login");
@@ -51,7 +100,9 @@ class Profile extends Component {
             </ListItem>
           </List>
 
+
           <Button title="Logout" onPress={() => this.logoutAuth()} style={{backgroundColor: 'orange', color: '#fff'}} />
+
 
         </Content>
 
