@@ -9,6 +9,7 @@ import HomeTwo from './screens/HomeTwo';
 import Signup from './screens/Signup';
 import AddJockey from './screens/AddJockey';
 import Profile from './screens/Profile';
+import Start from './screens/Start';
 
 
 const Root = createStackNavigator(
@@ -32,6 +33,9 @@ const Root = createStackNavigator(
 			},
 			Profile: {
 				screen: Profile
+			},
+			Start: {
+				screen: Start
 			}
 
 		}

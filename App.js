@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Routes from './src/routes';
 import { store, persistedStore } from './src/store';
+import * as fire from './src/services/config';
 
 export default class App extends React.Component {
   render() {

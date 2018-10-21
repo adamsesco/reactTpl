@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 
 import axios from 'axios';
 
+import * as Animatable from 'react-native-animatable';
+
 class HomeTwo extends Component {
 
   static navigationOptions = {
@@ -82,8 +84,10 @@ componentDidMount(){
           <FlatList
           data={jockies}
           renderItem={({item}) => 
+
+          <Animatable.View duration={500} animation="slideInLeft">
           
-          <TouchableOpacity onPress={()=> console.log(item.username)} style={{backgroundColor: '#fff', padding: 10, margin: 10, borderRadius: 5, shadowColor: '#000',shadowOffset: {width: 0, height: 2},  shadowOpacity: 0.2, alignContent: 'space-between', justifyContent: 'space-between', flexDirection: 'row', flex: 1}}>
+          <TouchableOpacity onPress={()=> this.props.navigation.navigate("Start", {jockeyData: item})} style={{backgroundColor: '#fff', padding: 10, margin: 10, borderRadius: 5, shadowColor: '#000',shadowOffset: {width: 0, height: 2},  shadowOpacity: 0.2, alignContent: 'space-between', justifyContent: 'space-between', flexDirection: 'row', flex: 1}}>
 
             <View><Icon type="ionicon" name="ios-contact" size={58} color="#6A7FF5" /></View>
             <View><Text style={{padding: 20, fontWeight: 'bold'}}>{item.username}</Text></View>
@@ -91,6 +95,8 @@ componentDidMount(){
 
 
           </TouchableOpacity>
+
+          </Animatable.View>
 
           }
           keyExtractor={({id}) => id}

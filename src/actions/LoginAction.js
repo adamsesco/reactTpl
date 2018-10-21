@@ -1,6 +1,6 @@
 import {LOGIN_PROGRESS, LOGIN_SUCCESS, LOGIN_FAILER, LOGOUT} from './types';
-
 import axios from 'axios';
+
 
 export const loginAction = (val) => {
 
@@ -19,7 +19,6 @@ export const loginAction = (val) => {
 
                     }
                     else{
-
                         
                         const conect = await axios.post(url, 
                             {
