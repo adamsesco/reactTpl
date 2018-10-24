@@ -65,45 +65,7 @@ saveP(){
     initialarray.push([1, 44]);
 }
 
-cehckDistanceType(){
 
-
-    const polygon_finish = [ [ 29.18070348401055, 47.81234432086579 ], [ 29.180569220689122, 47.812130638229085 ],[ 29.18052862943695, 47.81216818915736 ],[ 29.1806691375904, 47.8123711429575 ],[29.180705825810705, 47.81234342680963]];
-
-    const polygon_200 = [[29.181530697635623, 47.811572680213004], [29.181385533432504, 47.8113638069831],[29.181416445829257, 47.81133163051155],[29.181567100475945, 47.811538160624885],[29.181530697635623, 47.811572680213004]]
-
-    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], 811572680213004)){
-
-        self.setState({distance: 200});
-        
-        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
-            trainer_id: this.props.data.data.id,
-            jockey_id: this.props.navigation.getParam("jockeyData").id,
-            distance: 200,
-            activity_id: this.state.activity.id,
-            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
-        })
-
-       }
-
-    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_200)){
-
-        self.setState({distance: 'finish'});
-
-        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
-            trainer_id: this.props.data.data.id,
-            jockey_id: this.props.navigation.getParam("jockeyData").id,
-            distance: 'Finish',
-            activity_id: this.state.activity.id,
-            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
-        })
-
-        this.Stop();
-
-       }
-
-
-}
 
 showFinishModal(){
 
@@ -176,6 +138,59 @@ getDistance(from, to){
 
 
  }
+
+ Stop = () => {
+    clearInterval(this.timer);
+    firebase.database().ref("/Activities/"+this.state.activity.id).update({
+        jockey_id: this.props.navigation.getParam("jockeyData").id,
+        trainer_id: this.props.data.data.id,
+        statue: 1
+    })
+
+    firebase.database().goOffline()
+
+
+}
+
+ cehckDistanceType(){
+
+
+    const polygon_finish = [ [ 29.18070348401055, 47.81234432086579 ], [ 29.180569220689122, 47.812130638229085 ],[ 29.18052862943695, 47.81216818915736 ],[ 29.1806691375904, 47.8123711429575 ],[29.180705825810705, 47.81234342680963]];
+
+    const polygon_200 = [[29.181530697635623, 47.811572680213004], [29.181385533432504, 47.8113638069831],[29.181416445829257, 47.81133163051155],[29.181567100475945, 47.811538160624885],[29.181530697635623, 47.811572680213004]]
+
+    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_200)){
+
+        self.setState({distance: 200});
+        
+        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+            trainer_id: this.props.data.data.id,
+            jockey_id: this.props.navigation.getParam("jockeyData").id,
+            distance: 200,
+            activity_id: this.state.activity.id,
+            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+        })
+
+       }
+
+    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_finish)){
+
+        self.setState({distance: 'finish'});
+
+        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+            trainer_id: this.props.data.data.id,
+            jockey_id: this.props.navigation.getParam("jockeyData").id,
+            distance: 'Finish',
+            activity_id: this.state.activity.id,
+            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+        })
+
+        self.Stop();
+
+       }
+
+
+}
 
  getLastLocation = async () => {
 
@@ -259,16 +274,7 @@ makeTheAction(){
 
 }
 
-componentDidMount(){
-
-    this.makeTheAction();
-
-}
-
-
-
-
-  StartTimer = () =>{
+StartTimer = () =>{
 
     if(this.state.activity != null){
 
@@ -305,19 +311,12 @@ componentDidMount(){
 
 }
 
-  componentWillMount(){
+componentDidMount(){
 
+    this.makeTheAction();
 
 }
 
-  Stop = () => {
-      clearInterval(this.timer);
-      firebase.database().ref("/Activities/"+this.state.activity.id).update({
-          statue: 1
-      })
-
-
-  }
 
   render() {
 
