@@ -7,6 +7,8 @@ import HeaderTpl from '../components/Header';
 
 import {connect} from 'react-redux';
 
+import moment from 'moment';
+
 import axios from 'axios';
 
 import * as Animatable from 'react-native-animatable';
@@ -46,13 +48,24 @@ class HomeTwo extends Component {
 
 componentWillReceiveProps(){
 
-
   this.getJockies();
+
+}
+
+getDate(){
+
+var date, month, year;
+ date = new Date().getDate();
+ month = new Date().getMonth() + 1;
+ year = new Date().getFullYear();
+
+ return date + "-" +  month + "-" + year;
 
 }
 
 componentDidMount(){
 
+  console.log(this.getDate());
 
   this.getJockies();
 
@@ -83,9 +96,9 @@ componentDidMount(){
           
           <FlatList
           data={jockies}
-          renderItem={({item}) => 
+          renderItem={({key, item}) => 
 
-          <Animatable.View duration={500} animation="slideInLeft">
+          <Animatable.View duration={500 + (key * 20)} animation="slideInLeft">
           
           <TouchableOpacity onPress={()=> this.props.navigation.navigate("Start", {jockeyData: item})} style={{backgroundColor: '#fff', padding: 10, margin: 10, borderRadius: 5, shadowColor: '#000',shadowOffset: {width: 0, height: 2},  shadowOpacity: 0.2, alignContent: 'space-between', justifyContent: 'space-between', flexDirection: 'row', flex: 1}}>
 
@@ -104,6 +117,7 @@ componentDidMount(){
 
         <Button title="Add new jockey" containerViewStyle={{margin: 10, padding: 10}} rounded backgroundColor="#FF5126" onPress={() => this.props.navigation.navigate("AddJockey")} />
 
+
         </View>
 
       )
@@ -113,7 +127,25 @@ componentDidMount(){
    }
    else{
 
-    return (<View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontSize: 12, color: '#aaa', fontWeight: 'bold'}}>You didnt Add jockies!</Text> <Button title="Connect Phone" containerViewStyle={{margin: 10, padding: 10}} rounded backgroundColor="#FF5126" onPress={() => this.props.navigation.navigate("AddJockey")} /></View>)
+  
+
+    return (
+    
+    <View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+    
+      <Text style={{fontSize: 12, color: '#aaa', fontWeight: 'bold'}}>You didnt Add jockies!</Text> 
+
+       <Button title="Connect Phone" containerViewStyle={{margin: 10, padding: 10}} rounded backgroundColor="#FF5126" onPress={() => this.props.navigation.navigate("AddJockey")} />
+
+       <View style={{borderTopColor: '#ddd', borderTopWidth: 1, padding: 10}}>
+
+         <Text style={{fontSize: 12, color: '#aaa', fontWeight: 'bold', textAlign: "center"}}>If you're a jockey</Text>
+
+          <Button title="Let's train" containerViewStyle={{margin: 10, padding: 10}} rounded backgroundColor="#1B9CE2" onPress={() => this.props.navigation.navigate("Track")} />
+
+
+        </View>
+    </View>)
   
     
    }

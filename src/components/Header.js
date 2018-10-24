@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight, TouchableOpacity} from 'react-native';
 import {Header, Icon, Button} from 'react-native-elements';
+import firebase from 'firebase';
 
 class HeaderTpl extends React.Component {
   constructor(props) {
@@ -9,12 +10,33 @@ class HeaderTpl extends React.Component {
     };
   }
 
+  checkIfhasanAction(){
+
+    // firebase.database().ref("/Users/").push({
+
+    //   data: {
+    //     user_id: 12,
+    //     username: 'Adamsesco' 
+    //   }
+
+
+    // }).catch((error) => {
+    //   console.log(error);
+    // })
+
+
+
+  }
+
   componentDidMount(){
+
+    this.checkIfhasanAction();
 
   }
 
 
-leftButton = () => {
+
+ leftButton = () => {
   
       
     if(this.props.returned){

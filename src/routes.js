@@ -10,6 +10,8 @@ import Signup from './screens/Signup';
 import AddJockey from './screens/AddJockey';
 import Profile from './screens/Profile';
 import Start from './screens/Start';
+import Track from './screens/Track';
+import Results from './screens/Results';
 
 
 const Root = createStackNavigator(
@@ -36,6 +38,12 @@ const Root = createStackNavigator(
 			},
 			Start: {
 				screen: Start
+			},
+			Track: {
+				screen: Track
+			},
+			Results: {
+				screen: Results
 			}
 
 		}

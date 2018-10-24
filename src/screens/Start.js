@@ -4,8 +4,11 @@ import {Image,
         ScrollView, Dimensions} from 'react-native';
 import {MapView} from 'expo';
 import {Icon} from 'react-native-elements';
-import moment from 'moment';
+import moment, { invalid } from 'moment';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+import { Button } from 'native-base';
 
 class Start extends Component {
 
@@ -24,12 +27,13 @@ class Start extends Component {
             longitude: 0,
         },
         distance: 0,
-        modalVisible: true,
         timer: {
             mseconds: '00',
             seconds: '00',
             minutes: '00',
         },
+        activity: null,
+        modalVisible: true,
         savePresist: [],
         longitudeDela: 0.001,
         latitudeDelta: 0.001,
@@ -42,20 +46,104 @@ class Start extends Component {
     };
   }
 
+  makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 25; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
+  }
+  
 
-   saveP(){
+
+saveP(){
 
     const  initialarray = [];
 
     initialarray.push([1, 44]);
 }
 
-//   componentDidMount(){
-
-//         this.getLastLocation();
+cehckDistanceType(){
 
 
-//   }
+    const polygon_finish = [ [ 29.18070348401055, 47.81234432086579 ], [ 29.180569220689122, 47.812130638229085 ],[ 29.18052862943695, 47.81216818915736 ],[ 29.1806691375904, 47.8123711429575 ],[29.180705825810705, 47.81234342680963]];
+
+    const polygon_200 = [[29.181530697635623, 47.811572680213004], [29.181385533432504, 47.8113638069831],[29.181416445829257, 47.81133163051155],[29.181567100475945, 47.811538160624885],[29.181530697635623, 47.811572680213004]]
+
+    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], 811572680213004)){
+
+        self.setState({distance: 200});
+        
+        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+            trainer_id: this.props.data.data.id,
+            jockey_id: this.props.navigation.getParam("jockeyData").id,
+            distance: 200,
+            activity_id: this.state.activity.id,
+            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+        })
+
+       }
+
+    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_200)){
+
+        self.setState({distance: 'finish'});
+
+        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+            trainer_id: this.props.data.data.id,
+            jockey_id: this.props.navigation.getParam("jockeyData").id,
+            distance: 'Finish',
+            activity_id: this.state.activity.id,
+            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+        })
+
+        this.Stop();
+
+       }
+
+
+}
+
+showFinishModal(){
+
+    if(this.state.distance == 'finish'){
+
+
+    return (
+
+                        <Modal
+                        animationType="slide"
+                        transparent={false}
+                        duration={300}
+                        >
+
+
+                          <View style={{padding: 22, flex: 1, marginTop: 30}}>
+                            <View style={{backgroundColor: "#fff", borderRadius: 5, padding: 20}}>
+                            <Text style={{alignContent: "center", fontSize: 24, fontWeight: "bold", marginLeft: -20}}>Finish!</Text>
+                            <View style={{flex: 1, alignContent:'center', justifyContent:'center', backgroundColor: '#eee'}}>
+
+                            <Text style={{textAlign:'center', paddingVertical: 40, fontSize: 33, color:'red'}}> {this.state.timer.minutes} : {this.state.timer.seconds} : {this.state.timer.mseconds} </Text>
+                            
+                            </View>
+
+
+                            </View>
+                            <View style={{flex: 1, padding:20, backgroundColor: '#6578F9', bottom: 0, position: 'absolute', width: Dimensions.get("window").width}}>
+                            
+                                <TouchableOpacity onPress={() => console.log("Clicked")} style={{padding:10, alignContent:'center'}}><Text style={{textAlign:'center', color: '#fff', fontWeight: 'bold'}}>Save</Text></TouchableOpacity>
+
+                            </View>
+                        </View>
+          </Modal>              
+
+    )
+
+}
+
+}
+
 
   insideP(point, vs) {
     
@@ -93,7 +181,7 @@ getDistance(from, to){
 
     self = this;
 
-    firebase.database().ref("Position/10/N-Y-QeWrxMrSLN-Y-QeWrxMrSL").limitToLast(1).on('value', (data) => {
+    firebase.database().ref("Position/" + self.props.navigation.getParam("jockeyData").id + "/" + self.state.activity.id).limitToLast(1).on('value', (data) => {
 
      
       data.forEach(function(child){
@@ -101,6 +189,22 @@ getDistance(from, to){
         const newData = child.val();   
 
         self.setState({userLocation: {latitude: parseFloat(newData.latitude), longitude: parseFloat(newData.longitude), speed: newData.speed}})
+
+        self.mapView.animateToCoordinate(self.state.userLocation, 500);
+        
+
+        firebase.database().ref("Results/" + self.props.data.data.id + "/" + self.state.activity.id).push({
+
+            latitude: self.state.userLocation.latitude,
+            longitude: self.state.userLocation.longitude,
+            speed: self.state.userLocation.speed,
+            time: self.state.timer.minutes + ":" + self.state.timer.seconds + ":" + self.state.timer.mseconds,
+            distance: self.state.distance
+
+        })
+        
+
+        self.cehckDistanceType();
 
         
 
@@ -137,10 +241,39 @@ getDistance(from, to){
 
 }
 
+makeTheAction(){
+
+    firebase.database().ref("/Activities/").push({
+
+        jockey_id: this.props.navigation.getParam("jockeyData").id,
+        trainer_id: this.props.data.data.id,
+        statue: 0
+
+    }).then((success) => {
+        
+            this.setState({activity: {id: success.key, statue: 0}});
+        
+    }).catch((error) => {
+        console.log(error);
+    })
+
+}
+
+componentDidMount(){
+
+    this.makeTheAction();
+
+}
+
 
 
 
   StartTimer = () =>{
+
+    if(this.state.activity != null){
+
+    this.getLastLocation();
+
 
     const pad = (n) => n < 10 ? '0' + n : n
      
@@ -168,11 +301,22 @@ getDistance(from, to){
 
     }, 100);
 
+ }
 
-  }
+}
+
+  componentWillMount(){
+
+
+}
 
   Stop = () => {
       clearInterval(this.timer);
+      firebase.database().ref("/Activities/"+this.state.activity.id).update({
+          statue: 1
+      })
+
+
   }
 
   render() {
@@ -198,6 +342,15 @@ getDistance(from, to){
 
     }
 
+
+    const polygon = [
+        { latitude: 29.180669918178793, longitude: 47.812321969136306 },
+        { latitude: 29.18055225863544, longitude: 47.81214963644743 },
+        { latitude: 29.18055225863544, longitude: 47.81214963644743},
+        { latitude: 29.180669918178793, longitude: 47.812321969136306 },
+        // last point has to be same as first point
+      ];
+
     return (
 
 
@@ -209,11 +362,13 @@ getDistance(from, to){
          <View style={{marginLeft: 22}}><Text style={{fontWeight: 'bold', color: '#fff'}}>Live Tracking System</Text></View>
 
            <View style={styles.distance} rounded>
-             <Text style={{fontWeight: 'bold', color: '#6578F9', textAlign: 'center',}}>{this.state.distance} M</Text>
+             <Text style={{fontWeight: 'bold', color: '#6578F9', textAlign: 'center',}}>{this.state.distance}</Text>
            </View>
 
 
       </View>
+
+      {this.showFinishModal()}
 
                 
          <MapView 
@@ -226,7 +381,8 @@ getDistance(from, to){
                 latitudeDelta: this.state.latitudeDelta,
                 longitudeDelta: this.state.longitudeDela,
             }}
-            provider={MapView.PROVIDER_GOOGLE}
+            ref = {(ref)=>this.mapView=ref}
+            // provider={MapView.PROVIDER_GOOGLE}
         >
 
                     <MapView.Marker 
@@ -239,7 +395,7 @@ getDistance(from, to){
                     />
 
                        <MapView.Polyline
-                        // coordinates={polygon}
+                        coordinates={polygon}
                         strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
                         strokeColors={[
                             '#eee',
@@ -251,8 +407,6 @@ getDistance(from, to){
                             ]}
 		                 strokeWidth={2}
 	                    />
-
-
 
         </MapView>
         <View style={{flexDirection: 'row',  position: 'relative', bottom: 10, backgroundColor: "transparent", height: 0, justifyContent: 'space-around'}}>
@@ -317,4 +471,10 @@ const styles = StyleSheet.create({
 
 });
 
-export default Start;
+const mapStatetoPorps = ({loginAction}) => {
+    return {
+        data: loginAction.data
+    }
+}
+
+export default connect(mapStatetoPorps)(Start);
