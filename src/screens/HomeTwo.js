@@ -7,8 +7,6 @@ import HeaderTpl from '../components/Header';
 
 import {connect} from 'react-redux';
 
-import moment from 'moment';
-
 import axios from 'axios';
 
 import * as Animatable from 'react-native-animatable';

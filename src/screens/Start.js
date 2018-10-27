@@ -94,7 +94,7 @@ showFinishModal(){
                             </View>
                             <View style={{flex: 1, padding:20, backgroundColor: '#6578F9', bottom: 0, position: 'absolute', width: Dimensions.get("window").width}}>
                             
-                                <TouchableOpacity onPress={() => console.log("Clicked")} style={{padding:10, alignContent:'center'}}><Text style={{textAlign:'center', color: '#fff', fontWeight: 'bold'}}>Save</Text></TouchableOpacity>
+                                <TouchableOpacity oonPress={()=> this.props.navigation.navigate("Results", {data: this.state.activity.id})} style={{padding:10, alignContent:'center'}}><Text style={{textAlign:'center', color: '#fff', fontWeight: 'bold'}}>Save</Text></TouchableOpacity>
 
                             </View>
                         </View>
@@ -157,34 +157,101 @@ getDistance(from, to){
 
     const polygon_finish = [ [ 29.18070348401055, 47.81234432086579 ], [ 29.180569220689122, 47.812130638229085 ],[ 29.18052862943695, 47.81216818915736 ],[ 29.1806691375904, 47.8123711429575 ],[29.180705825810705, 47.81234342680963]];
 
+    const polygon_2000 = [[29.178276189377954, 47.81468335958236]];
+
+    const polygon_1800 = [[29.17895572140383,  47.81652499197392]];
+
+    const polygon_1600 = [[29.18044356965922,  47.81699189038182]];
+
+    const polygon_1400 = [[29.18184185575338, 47.81567235554564]];
+    
+    const polygon_1200 = [[29.183303842330112,  47.8144493289184]];
+
+    const polygon_1000 = [[29.18466085179976,  47.81310835000743]];
+
+    const polygon_800 = [[29.18588262357343,  47.8116667357935]];
+
+    const polygon_600 = [[29.18505715842803,  47.80999546568149]];
+
+    const polygon_400 = [[29.183538821216178,  47.80972283518292], [29.183402044503367, 47.80949444325331], [29.183433165771916, 47.80946238511112], [29.18357456146566, 47.809692164197465], [29.183538821216178,  47.80972283518292]];
+
     const polygon_200 = [[29.181530697635623, 47.811572680213004], [29.181385533432504, 47.8113638069831],[29.181416445829257, 47.81133163051155],[29.181567100475945, 47.811538160624885],[29.181530697635623, 47.811572680213004]]
 
+    const polygon_100 = [[29.181530697635623, 47.811572680213004], [29.181385533432504, 47.8113638069831],[29.18134569674062, 47.81139654841684],[29.18148386199752, 47.811614701423295],[29.1815252335266, 47.81157536242219]]
+    
+    
+        
+    
+    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_400)){
+
+        if(self.state.distance != 400){
+            axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+                trainer_id: this.props.data.data.id,
+                jockey_id: this.props.navigation.getParam("jockeyData").id,
+                distance: 400,
+                activity_id: this.state.activity.id,
+                timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+            })
+
+            self.setState({distance: 400});
+
+
+        }
+       }
+
+           
     if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_200)){
 
-        self.setState({distance: 200});
-        
-        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
-            trainer_id: this.props.data.data.id,
-            jockey_id: this.props.navigation.getParam("jockeyData").id,
-            distance: 200,
-            activity_id: this.state.activity.id,
-            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
-        })
+        if(self.state.distance != 200){
+            axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+                trainer_id: this.props.data.data.id,
+                jockey_id: this.props.navigation.getParam("jockeyData").id,
+                distance: 200,
+                activity_id: this.state.activity.id,
+                timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+            })
+
+            self.setState({distance: 200});
+
+
+        }
 
        }
 
+    if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_100)){
+
+        if(self.state.distance != 100){
+            axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+                trainer_id: this.props.data.data.id,
+                jockey_id: this.props.navigation.getParam("jockeyData").id,
+                distance: 100,
+                activity_id: this.state.activity.id,
+                timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+            })
+
+            self.setState({distance: 100});
+
+
+        }
+
+       }
+
+
     if(this.insideP([this.state.userLocation.latitude, this.state.userLocation.longitude], polygon_finish)){
 
-        self.setState({distance: 'finish'});
+        if(self.state.distance != 'finish'){
+            axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
+                trainer_id: this.props.data.data.id,
+                jockey_id: this.props.navigation.getParam("jockeyData").id,
+                distance: 'finish',
+                activity_id: this.state.activity.id,
+                timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
+            })
 
-        axios.post("https://www.farwaniyahclub.com/voting/?page=SaveRecord", {
-            trainer_id: this.props.data.data.id,
-            jockey_id: this.props.navigation.getParam("jockeyData").id,
-            distance: 'Finish',
-            activity_id: this.state.activity.id,
-            timer: this.state.timer.minutes + ":" + this.state.timer.seconds + ":" + this.state.timer.mseconds,
-        })
+            self.setState({distance: 'finish'});
 
+
+        }
         self.Stop();
 
        }
@@ -350,6 +417,7 @@ componentDidMount(){
         // last point has to be same as first point
       ];
 
+
     return (
 
 
@@ -375,8 +443,8 @@ componentDidMount(){
             mapType="satellite"
             style={{flex: 1}}
             initialRegion={{
-                latitude: 29.180613495855397,
-                longitude: 47.81234649758561,
+                latitude: this.state.userLocation.latitude,
+                longitude:this.state.userLocation.longitude,
                 latitudeDelta: this.state.latitudeDelta,
                 longitudeDelta: this.state.longitudeDela,
             }}
@@ -384,17 +452,16 @@ componentDidMount(){
             // provider={MapView.PROVIDER_GOOGLE}
         >
 
-                    <MapView.Marker 
-                        key="1"
-                        title="Adam Daaif"
-                        coordinate={{
-                            latitude: this.state.userLocation.latitude,
-                            longitude: this.state.userLocation.longitude
-                        }}
-                    />
+
 
                        <MapView.Polyline
-                        coordinates={polygon}
+                        coordinates={[
+                            {latitude: 29.183538821216178, longitude:47.80972283518292},
+                            {latitude: 29.183402044503367, longitude:47.80949444325331},
+                            {latitude: 29.183433165771916, longitude:47.80946238511112},
+                            {latitude: 29.18357456146566, longitude:47.809692164197465},
+                            {latitude: 29.183538821216178, longitude:47.80972283518292},
+                        ]}
                         strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
                         strokeColors={[
                             '#eee',
@@ -406,6 +473,15 @@ componentDidMount(){
                             ]}
 		                 strokeWidth={2}
 	                    />
+
+                    <MapView.Marker 
+                        key="1"
+                        title="Adam Daaif"
+                        coordinate={{
+                            latitude: this.state.userLocation.latitude,
+                            longitude: this.state.userLocation.longitude
+                        }}
+                    />
 
         </MapView>
         <View style={{flexDirection: 'row',  position: 'relative', bottom: 10, backgroundColor: "transparent", height: 0, justifyContent: 'space-around'}}>

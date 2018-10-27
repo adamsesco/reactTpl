@@ -35,7 +35,17 @@ class Login extends Component {
 
       if(this.props.data.data.token){
 
-        await this.props.navigation.navigate("HomeTwo");
+        if(this.props.data.data.type == 1){
+
+          await this.props.navigation.navigate("HomeTwo");
+
+        }else{
+
+          await this.props.navigation.navigate("MyRaces");
+
+
+        }
+
 
       }
 
@@ -78,8 +88,18 @@ class Login extends Component {
 
         const { navigate } = this.props.navigation;
 
+        if(this.props.data.data.type == 1){
 
-        navigate('HomeTwo');
+          navigate('HomeTwo');
+
+        }else{
+
+          navigate('MyRaces');
+
+
+        }
+
+
 
       }
 

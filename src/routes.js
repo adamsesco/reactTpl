@@ -12,6 +12,7 @@ import Profile from './screens/Profile';
 import Start from './screens/Start';
 import Track from './screens/Track';
 import Results from './screens/Results';
+import MyRaces from './screens/MyRaces';
 
 
 const Root = createStackNavigator(
@@ -44,6 +45,9 @@ const Root = createStackNavigator(
 			},
 			Results: {
 				screen: Results
+			},
+			MyRaces: {
+				screen: MyRaces
 			}
 
 		}
